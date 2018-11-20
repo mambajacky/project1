@@ -45,12 +45,12 @@ engine = create_engine(DATABASEURI)
 
 
 # Here we create a test table and insert some values in it
-engine.execute("""DROP TABLE IF EXISTS test;""")
-engine.execute("""CREATE TABLE IF NOT EXISTS test (
-  id serial,
-  name text
-);""")
-engine.execute("""INSERT INTO test(name) VALUES ('grace hopper'), ('alan turing'), ('ada lovelace');""")
+# engine.execute("""DROP TABLE IF EXISTS test;""")
+# engine.execute("""CREATE TABLE IF NOT EXISTS test (
+  # id serial,
+  # name text
+# );""")
+# engine.execute("""INSERT INTO test(name) VALUES ('grace hopper'), ('alan turing'), ('ada lovelace');""")
 
 
 
@@ -111,10 +111,10 @@ def index():
   #
   # example of a database query
   #
-  cursor = g.conn.execute("SELECT name FROM test")
-  names = []
+  cursor = g.conn.execute("SELECT * FROM Users_Live")
+  users = []
   for result in cursor:
-    names.append(result['name'])  # can also be accessed using result[0]
+    users.append(result['uid','uname'])  # can also be accessed using result[0]
   cursor.close()
 
   #
@@ -143,7 +143,7 @@ def index():
   #     <div>{{n}}</div>
   #     {% endfor %}
   #
-  context = dict(data = names)
+  context = dict(data = users)
 
 
   #
@@ -168,10 +168,10 @@ def another():
 # Example of adding new data to the database
 @app.route('/add', methods=['POST'])
 def add():
-  name = request.form['name']
-  print name
-  cmd = 'INSERT INTO test(name) VALUES (:name1), (:name2)';
-  g.conn.execute(text(cmd), name1 = name, name2 = name);
+  user = request.form['uid','uname']
+  print user
+  cmd = 'INSERT INTO Users_Live(uid,uname) VALUES (uid1,uname1)';
+  g.conn.execute(text(cmd), uid1 = uid, uname1 = uname);
   return redirect('/')
 
 
