@@ -111,10 +111,10 @@ def index():
   #
   # example of a database query
   #
-  cursor = g.conn.execute("SELECT * FROM Users_Live")
+  cursor = g.conn.execute("SELECT uname FROM Users_Live")
   users = []
   for result in cursor:
-    users.append(result['uid','uname'])  # can also be accessed using result[0]
+    users.append(result['uname'])  # can also be accessed using result[0]
   cursor.close()
 
   #
@@ -168,10 +168,10 @@ def another():
 # Example of adding new data to the database
 @app.route('/add', methods=['POST'])
 def add():
-  user = request.form['uid','uname']
+  user = request.form['uname']
   print user
-  cmd = 'INSERT INTO Users_Live(uid,uname) VALUES (uid1,uname1)';
-  g.conn.execute(text(cmd), uid1 = uid, uname1 = uname);
+  cmd = 'INSERT INTO Users_Live(uname) VALUES (:uname1), (:uname2)';
+  g.conn.execute(text(cmd), uname1 = uname, uname2 = uname);
   return redirect('/')
 
 
