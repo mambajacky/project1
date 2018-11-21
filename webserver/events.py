@@ -111,10 +111,26 @@ def index():
   #
   # example of a database query
   #
-  cursor = g.conn.execute("SELECT uname FROM Users_Live")
-  users = []
+  cursor = g.conn.execute("SELECT * FROM Users_Live")
+  uid = []
+  uname = []
+  email_address = []
+  password = []
+  gender = []
+  state = []
+  city = []
+  street_name = []
+  street_number = []
   for result in cursor:
-    users.append(result['uname'])  # can also be accessed using result[0]
+    uid.append(result['uid'])  # can also be accessed using result[0]
+    uname.append(result['uname'])
+    email_address.append(result['email_address'])
+    password.append(result['password'])
+    gender.append(result['gender'])
+    state.append(result['state'])
+    city.append(result['city'])
+    street_name.append(result['street_name'])
+    street_number.append(result['street_number'])
   cursor.close()
 
   #
@@ -143,14 +159,15 @@ def index():
   #     <div>{{n}}</div>
   #     {% endfor %}
   #
-  context = dict(data = users)
+  context = dict(data1 = uid, data2 = uname, data3 = email_address, data4 = password, 
+                 data5 = gender, data6 = state, data7 = city, data8 = street_name, data9 = street_number)
 
 
   #
   # render_template looks in the templates/ folder for files.
   # for example, the below file reads template/index.html
   #
-  return render_template("index.html", **context)
+  return render_template("users.html", **context)
 
 #
 # This is an example of a different path.  You can see it at
@@ -168,10 +185,12 @@ def another():
 # Example of adding new data to the database
 @app.route('/add', methods=['POST'])
 def add():
-  user = request.form['uname']
-  print user
-  cmd = 'INSERT INTO Users_Live(uname) VALUES (:uname1), (:uname2)';
-  g.conn.execute(text(cmd), uname1 = uname, uname2 = uname);
+  # user = request.form['uname']
+  # print user
+  cmd = 'INSERT INTO Users_Live(uid, uname, email_address, password, gender, state, city, street_name, street_number)  \
+                     VALUES (:uid), (:uname), (:email), (:password), (:gender), (:state), (:city), (:streetname), (:streetnumber)';
+  g.conn.execute(text(cmd), uid=uid, uname=uname, email=email_address, password=password, gender=gender, state=state,
+                 city=city, streetname=street_name, streetnumber=street_number);
   return redirect('/')
 
 
