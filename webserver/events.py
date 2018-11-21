@@ -159,8 +159,8 @@ def index():
   #     <div>{{n}}</div>
   #     {% endfor %}
   #
-  context = dict(data1 = uid, data2 = uname, data3 = email_address, data4 = password, 
-                 data5 = gender, data6 = state, data7 = city, data8 = street_name, data9 = street_number)
+  context = dict(data = data1 = uid, data2 = uname, data3 = email_address, data4 = password, 
+              data5 = gender, data6 = state, data7 = city, data8 = street_name, data9 = street_number)
 
 
   #
