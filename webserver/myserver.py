@@ -171,8 +171,8 @@ def users():
 # 
 #     localhost:8111/votes
 #
-@app.route('/votes')
-def votes():
+@app.route('/participants')
+def participants():
   cursor = g.conn.execute("SELECT * FROM Participate_Vote_Events")
   uid = []
   eid = []
@@ -192,9 +192,9 @@ def votes():
 
   #
   # render_template looks in the templates/ folder for files.
-  # for example, the below file reads template/votes.html
+  # for example, the below file reads template/participants.html
   #
-  return render_template("votes.html", **context)
+  return render_template("participants.html", **context)
 
 
 @app.route('/locations')
