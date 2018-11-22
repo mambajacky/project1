@@ -44,15 +44,6 @@ DATABASEURI = "postgresql://"+DB_USER+":"+DB_PASSWORD+"@"+DB_SERVER+"/w4111"
 engine = create_engine(DATABASEURI)
 
 
-# Here we create a test table and insert some values in it
-# engine.execute("""DROP TABLE IF EXISTS test;""")
-# engine.execute("""CREATE TABLE IF NOT EXISTS test (
-  # id serial,
-  # name text
-# );""")
-# engine.execute("""INSERT INTO test(name) VALUES ('grace hopper'), ('alan turing'), ('ada lovelace');""")
-
-
 
 @app.before_request
 def before_request():
@@ -94,8 +85,28 @@ def teardown_request(exception):
 # see for routing: http://flask.pocoo.org/docs/0.10/quickstart/#routing
 # see for decorators: http://simeonfranklin.com/blog/2012/jul/1/python-decorators-in-12-steps/
 #
+#
+# This is a home page.  You can see it at
+# 
+#     localhost:8111/
+#
+# You can visit other pages with the links in the home page
+#
 @app.route('/')
-def index():
+def home():
+  return render_template("home.html")
+    
+
+#
+# This is an example of a different path.  You can see it at
+# 
+#     localhost:8111/users
+#
+# notice that the function name is users() rather than home()
+# the functions for each app.route needs to have different names
+#
+@app.route('/users')
+def users():
   """
   request is a special object that Flask provides to access web request information:
   request.method:   "GET" or "POST"
@@ -105,11 +116,11 @@ def index():
   """
 
   # DEBUG: this is debugging code to see what request looks like
-  print request.args
+  # print request.args
 
 
   #
-  # example of a database query
+  # fetch data from Users_Live table
   #
   cursor = g.conn.execute("SELECT * FROM Users_Live")
   uid = []
@@ -139,25 +150,11 @@ def index():
   # (you can think of it as simple PHP)
   # documentation: https://realpython.com/blog/python/primer-on-jinja-templating/
   #
-  # You can see an example template in templates/index.html
+  # You can see an example template in templates/users.html
   #
   # context are the variables that are passed to the template.
-  # for example, "data" key in the context variable defined below will be 
-  # accessible as a variable in index.html:
-  #
-  #     # will print: [u'grace hopper', u'alan turing', u'ada lovelace']
-  #     <div>{{data}}</div>
-  #     
-  #     # creates a <div> tag for each element in data
-  #     # will print: 
-  #     #
-  #     #   <div>grace hopper</div>
-  #     #   <div>alan turing</div>
-  #     #   <div>ada lovelace</div>
-  #     #
-  #     {% for n in data %}
-  #     <div>{{n}}</div>
-  #     {% endfor %}
+  # for example, "data1" key in the context variable defined below will be 
+  # accessible as a variable in users.html:
   #
   context = dict(data1 = uid, data2 = uname, data3 = email_address, data4 = password, 
               data5 = gender, data6 = state, data7 = city, data8 = street_name, data9 = street_number)
@@ -165,24 +162,127 @@ def index():
 
   #
   # render_template looks in the templates/ folder for files.
-  # for example, the below file reads template/index.html
+  # for example, the below file reads template/users.html
   #
   return render_template("users.html", **context)
 
 #
-# This is an example of a different path.  You can see it at
+# This is a different path.  You can see it at
 # 
-#     localhost:8111/another
+#     localhost:8111/votes
 #
-# notice that the functio name is another() rather than index()
-# the functions for each app.route needs to have different names
-#
-@app.route('/another')
-def another():
-  return render_template("anotherfile.html")
+@app.route('/votes')
+def votes():
+  cursor = g.conn.execute("SELECT * FROM Participate_Vote_Events")
+  uid = []
+  eid = []
+  rating = []
+  birth_date = []
+  interest = []
+
+  for result in cursor:
+    uid.append(result['uid'])  # can also be accessed using result[0]
+    eid.append(result['eid'])
+    rating.append(result['rating'])
+    birth_date.append(result['birth_date'])
+    interest.append(result['interest'])
+  cursor.close()
+
+  context = dict(data1 = uid, data2 = eid, data3 = rating, data4 = birth_date, data5 = interest) 
+
+  #
+  # render_template looks in the templates/ folder for files.
+  # for example, the below file reads template/votes.html
+  #
+  return render_template("votes.html", **context)
 
 
-# Example of adding new data to the database
+@app.route('/locations')
+def locations():
+  cursor = g.conn.execute("SELECT * FROM Locations")
+  state = []
+  city = []
+  street_name = []
+  street_number = []
+
+  for result in cursor:
+    state.append(result['state'])  # can also be accessed using result[0]
+    city.append(result['city'])
+    street_name.append(result['street_name'])
+    street_number.append(result['street_number'])
+  cursor.close()
+
+  context = dict(data1 = state, data2 = city, data3 = street_name, data4 = street_number) 
+
+  #
+  # render_template looks in the templates/ folder for files.
+  # for example, the below file reads template/locations.html
+  #
+  return render_template("locations.html", **context)
+
+
+@app.route('/organizers')
+def organizers():
+  cursor = g.conn.execute("SELECT * FROM Organize_Events")
+  uid = []
+  eid = []
+
+  for result in cursor:
+    uid.append(result['uid'])  # can also be accessed using result[0]
+    eid.append(result['eid'])
+  cursor.close()
+
+  context = dict(data1 = uid, data2 = eid) 
+
+  #
+  # render_template looks in the templates/ folder for files.
+  # for example, the below file reads template/organizers.html
+  #
+  return render_template("organizers.html", **context)
+
+
+@app.route('/events')
+def events():
+  cursor = g.conn.execute("SELECT * FROM Events_TakePlace_Belong_Organize")
+  eid = [],
+  cost = [],
+  date = [],
+  ename = [],
+  smallest_age = [],
+  category = [],
+  uid = [],
+  state = [],
+  city = [],
+  street_name = [],
+  street_number = [],
+
+  for result in cursor:
+    eid.append(result['eid'])  # can also be accessed using result[0]
+    cost.append(result['cost'])
+    date.append(result['date'])
+    ename.append(result['ename'])
+    smallest_age.append(result['smallest_age'])
+    category.append(result['category'])
+    uid.append(result['uid'])
+    state.append(result['state'])
+    city.append(result['city'])
+    street_name.append(result['street_name'])
+    street_number.append(result['street_number'])
+  cursor.close()
+
+  context = dict(data1 = eid, data2 = cost, data3 = date, data4 = ename, data5 = smallest_age, data6 = category, 
+                 data7 = uid, data8 = state, data9 = city, data10 = street_name, data11 = street_number) 
+
+  #
+  # render_template looks in the templates/ folder for files.
+  # for example, the below file reads template/events.html
+  #
+  return render_template("events.html", **context)
+
+
+#
+# TODO: Adding new data to the database. Currently doesn't work!!!
+# 
 @app.route('/add', methods=['POST'])
 def add():
   # user = request.form['uname']
