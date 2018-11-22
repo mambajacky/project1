@@ -244,17 +244,17 @@ def organizers():
 @app.route('/events')
 def events():
   cursor = g.conn.execute("SELECT * FROM Events_TakePlace_Belong_Organize")
-  eid = [],
-  cost = [],
-  date = [],
-  ename = [],
-  smallest_age = [],
-  category = [],
-  uid = [],
-  state = [],
-  city = [],
-  street_name = [],
-  street_number = [],
+  eid = []
+  cost = []
+  date = []
+  ename = []
+  smallest_age = []
+  category = []
+  uid = []
+  state = []
+  city = []
+  street_name = []
+  street_number = []
 
   for result in cursor:
     eid.append(result['eid'])  # can also be accessed using result[0]
