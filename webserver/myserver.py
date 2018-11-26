@@ -285,13 +285,20 @@ def events():
 # 
 @app.route('/add', methods=['POST'])
 def add():
-  # user = request.form['uname']
-  # print user
+  uid = request.form['uid']
+  uname = request.form['uname']
+  email_address = request.form['email_address']
+  password = request.form['password']
+  gender = request.form['gender']
+  state = request.form['state']
+  city = request.form['city']
+  street_name = request.form['street_name']
+  street_number = request.form['street_number']
   cmd = 'INSERT INTO Users_Live(uid, uname, email_address, password, gender, state, city, street_name, street_number)  \
-                     VALUES (:uid), (:uname), (:email), (:password), (:gender), (:state), (:city), (:streetname), (:streetnumber)';
-  g.conn.execute(text(cmd), uid=uid, uname=uname, email=email_address, password=password, gender=gender, state=state,
-                 city=city, streetname=street_name, streetnumber=street_number);
-  return redirect('/')
+                     VALUES (:uid), (:uname), (:email), (:password), (:gender), (:state), (:city), (:street_name), (:street_number)';
+  g.conn.execute(text(cmd), uid=uid, uname=uname, email_address=email_address, password=password, gender=gender, state=state,
+                 city=city, street_name=street_name, street_number=street_number);
+  return redirect('/users')
 
 
 @app.route('/login')
