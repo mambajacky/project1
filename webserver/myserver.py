@@ -304,44 +304,46 @@ def adduser():
     #raise ValueError("bad input, please try again.")
     return redirect('/users')
 
+
 @app.route('/selectuser', methods=['POST'])
 def selectuser():
-  target = request.form['target']
-  value = request.form['search']
-  if target == "uid":
-    cmd = "SELECT * FROM Users_Live WHERE uid = %s;"
-  elif target == "uname":
-    cmd = "SELECT * FROM Users_Live WHERE uname = %s;"
-  elif target == "gender":
-    cmd = "SELECT * FROM Users_Live WHERE gender = %s;"
-  else:
-    raise ValueError("Please use another target attribute.")
-  cursor = g.conn.execute(cmd, (value))
-  uid = []
-  uname = []
-  email_address = []
-  password = []
-  gender = []
-  state = []
-  city = []
-  street_name = []
-  street_number = []
-  for result in cursor:
-    uid.append(result['uid'])  # can also be accessed using result[0]
-    uname.append(result['uname'])
-    email_address.append(result['email_address'])
-    password.append(result['password'])
-    gender.append(result['gender'])
-    state.append(result['state'])
-    city.append(result['city'])
-    street_name.append(result['street_name'])
-    street_number.append(result['street_number'])
-  cursor.close()
-
-  context = dict(data1 = uid, data2 = uname, data3 = email_address, data4 = password, 
+  try:
+    target = request.form['target']
+    value = request.form['search']
+    if target == "uid":
+      cmd = "SELECT * FROM Users_Live WHERE uid = %s;"
+    elif target == "uname":
+      cmd = "SELECT * FROM Users_Live WHERE uname = %s;"
+    elif target == "gender":
+      cmd = "SELECT * FROM Users_Live WHERE gender = %s;"
+    else:
+      raise ValueError("Please use another target attribute.")
+    cursor = g.conn.execute(cmd, (value))
+    uid = []
+    uname = []
+    email_address = []
+    password = []
+    gender = []
+    state = []
+    city = []
+    street_name = []
+    street_number = []
+    for result in cursor:
+      uid.append(result['uid'])  # can also be accessed using result[0]
+      uname.append(result['uname'])
+      email_address.append(result['email_address'])
+      password.append(result['password'])
+      gender.append(result['gender'])
+      state.append(result['state'])
+      city.append(result['city'])
+      street_name.append(result['street_name'])
+      street_number.append(result['street_number'])
+    cursor.close()
+    context = dict(data1 = uid, data2 = uname, data3 = email_address, data4 = password, 
               data5 = gender, data6 = state, data7 = city, data8 = street_name, data9 = street_number)
-
-  return render_template("selectedusers.html", **context)
+    return render_template("selectedusers.html", **context)
+  except:
+    return redirect('/users')
 
 
 @app.route('/addlocation', methods=['POST'])
@@ -380,47 +382,50 @@ def addevent():
 
 @app.route('/selectevent', methods=['POST'])
 def selectevent():
-  target = request.form['target']
-  value = request.form['search']
-  if target == "eid":
-    cmd = "SELECT * FROM Events_TakePlace_Belong_Organize WHERE eid = %s;"
-  elif target == "ename":
-    cmd = "SELECT * FROM Events_TakePlace_Belong_Organize WHERE ename = %s;"
-  elif target == "state":
-    cmd = "SELECT * FROM Events_TakePlace_Belong_Organize WHERE state = %s;"
-  else:
-    raise ValueError("Please use another target attribute.")
-  cursor = g.conn.execute(cmd, (value))
-  eid = []
-  cost = []
-  date = []
-  ename = []
-  smallest_age = []
-  category = []
-  uid = []
-  state = []
-  city = []
-  street_name = []
-  street_number = []
+  try:
+    target = request.form['target']
+    value = request.form['search']
+    if target == "eid":
+      cmd = "SELECT * FROM Events_TakePlace_Belong_Organize WHERE eid = %s;"
+    elif target == "ename":
+      cmd = "SELECT * FROM Events_TakePlace_Belong_Organize WHERE ename = %s;"
+    elif target == "state":
+      cmd = "SELECT * FROM Events_TakePlace_Belong_Organize WHERE state = %s;"
+    else:
+      raise ValueError("Please use another target attribute.")
+    cursor = g.conn.execute(cmd, (value))
+    eid = []
+    cost = []
+    date = []
+    ename = []
+    smallest_age = []
+    category = []
+    uid = []
+    state = []
+    city = []
+    street_name = []
+    street_number = []
 
-  for result in cursor:
-    eid.append(result['eid'])  # can also be accessed using result[0]
-    cost.append(result['cost'])
-    date.append(result['date'])
-    ename.append(result['ename'])
-    smallest_age.append(result['smallest_age'])
-    category.append(result['category'])
-    uid.append(result['uid'])
-    state.append(result['state'])
-    city.append(result['city'])
-    street_name.append(result['street_name'])
-    street_number.append(result['street_number'])
-  cursor.close()
+    for result in cursor:
+      eid.append(result['eid'])  # can also be accessed using result[0]
+      cost.append(result['cost'])
+      date.append(result['date'])
+      ename.append(result['ename'])
+      smallest_age.append(result['smallest_age'])
+      category.append(result['category'])
+      uid.append(result['uid'])
+      state.append(result['state'])
+      city.append(result['city'])
+      street_name.append(result['street_name'])
+      street_number.append(result['street_number'])
+    cursor.close()
 
-  context = dict(data1 = eid, data2 = cost, data3 = date, data4 = ename, data5 = smallest_age, data6 = category, 
+    context = dict(data1 = eid, data2 = cost, data3 = date, data4 = ename, data5 = smallest_age, data6 = category, 
                  data7 = uid, data8 = state, data9 = city, data10 = street_name, data11 = street_number) 
 
-  return render_template("selectedevents.html", **context)
+    return render_template("selectedevents.html", **context)
+  except:
+    return redirect('/events')
 
 @app.route('/participate', methods=['POST'])
 def participate():
@@ -438,35 +443,38 @@ def participate():
 
 @app.route('/selectparticipant', methods=['POST'])
 def selectparticipant():
-  target = request.form['target']
-  value = request.form['search']
-  if target == "uid":
-    cmd = "SELECT * FROM Participate_Vote_Events WHERE uid = %s;"
-  elif target == "interest":
-    cmd = "SELECT * FROM Participate_Vote_Events WHERE interest = %s;"
-  elif target == "rating":
-    cmd = "SELECT * FROM Participate_Vote_Events WHERE rating = %s;"
-  else:
-    raise ValueError("Please use another target attribute.")
+  try:
+    target = request.form['target']
+    value = request.form['search']
+    if target == "uid":
+      cmd = "SELECT * FROM Participate_Vote_Events WHERE uid = %s;"
+    elif target == "interest":
+      cmd = "SELECT * FROM Participate_Vote_Events WHERE interest = %s;"
+    elif target == "rating":
+      cmd = "SELECT * FROM Participate_Vote_Events WHERE rating = %s;"
+    else:
+      raise ValueError("Please use another target attribute.")
     
-  cursor = g.conn.execute(cmd, (value))
-  uid = []
-  eid = []
-  rating = []
-  birth_date = []
-  interest = []
+    cursor = g.conn.execute(cmd, (value))
+    uid = []
+    eid = []
+    rating = []
+    birth_date = []
+    interest = []
 
-  for result in cursor:
-    uid.append(result['uid'])  # can also be accessed using result[0]
-    eid.append(result['eid'])
-    rating.append(result['rating'])
-    birth_date.append(result['birth_date'])
-    interest.append(result['interest'])
-  cursor.close()
+    for result in cursor:
+      uid.append(result['uid'])  # can also be accessed using result[0]
+      eid.append(result['eid'])
+      rating.append(result['rating'])
+      birth_date.append(result['birth_date'])
+      interest.append(result['interest'])
+    cursor.close()
 
-  context = dict(data1 = uid, data2 = eid, data3 = rating, data4 = birth_date, data5 = interest) 
+    context = dict(data1 = uid, data2 = eid, data3 = rating, data4 = birth_date, data5 = interest) 
 
-  return render_template("selectedparticipants.html", **context)
+    return render_template("selectedparticipants.html", **context)
+  except:
+    return redirect('/participants')
 
 @app.route('/organize', methods=['POST'])
 def organize():
