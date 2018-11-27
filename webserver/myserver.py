@@ -305,13 +305,18 @@ def adduser():
 
 @app.route('/selectuser', methods=['POST'])
 def selectuser():
-  try:
-    target = request.form['target']
-    value = request.form['search']
-    if target == uid:
-      cmd = "SELECT * FROM Users_Live WHERE uid = %s;"
-    g.conn.execute(cmd, (value))
-    return redirect('/users')
+  target = request.form['target']
+  value = request.form['search']
+  if target == "uid":
+    cmd = "SELECT * FROM Users_Live WHERE uid = %s;"
+  elif target == "uname":
+    cmd = "SELECT * FROM Users_Live WHERE uname = %s;"
+  elif target == "gender":
+    cmd = "SELECT * FROM Users_Live WHERE gender = %s;"
+  else:
+    raise ValueError("Wrong Target")
+  g.conn.execute(cmd, (value))
+  return redirect('/users')
 
 @app.route('/addlocation', methods=['POST'])
 def addlocation():
