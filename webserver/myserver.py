@@ -436,6 +436,38 @@ def participate():
   except:
     return redirect('/participants')
 
+@app.route('/selectparticipant', methods=['POST'])
+def selectparticipant():
+  target = request.form['target']
+  value = request.form['search']
+  if target == "uid":
+    cmd = "SELECT * FROM Participate_Vote_Events WHERE uid = %s;"
+  elif target == "interest":
+    cmd = "SELECT * FROM Participate_Vote_Events WHERE interest = %s;"
+  elif target == "rating":
+    cmd = "SELECT * FROM Participate_Vote_Events WHERE rating = %s;"
+  else:
+    raise ValueError("Please use another target attribute.")
+    
+  cursor = g.conn.execute(cmd, (value))
+  uid = []
+  eid = []
+  rating = []
+  birth_date = []
+  interest = []
+
+  for result in cursor:
+    uid.append(result['uid'])  # can also be accessed using result[0]
+    eid.append(result['eid'])
+    rating.append(result['rating'])
+    birth_date.append(result['birth_date'])
+    interest.append(result['interest'])
+  cursor.close()
+
+  context = dict(data1 = uid, data2 = eid, data3 = rating, data4 = birth_date, data5 = interest) 
+
+  return render_template("selectedparticipants.html", **context)
+
 @app.route('/organize', methods=['POST'])
 def organize():
   try:
