@@ -300,7 +300,8 @@ def adduser():
     g.conn.execute(cmd, (uid, uname, email_address, password, gender, state, city, street_name, street_number))
     return redirect('/users')
   except:
-    raise ValueError("bad input, please try again.")
+    #raise ValueError("bad input, please try again.")
+    return redirect('/users')
 
 @app.route('/addlocation', methods=['POST'])
 def addlocation():
