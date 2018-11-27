@@ -1,0 +1,93 @@
+<html>
+  <style>
+    body{ 
+      font-size: 15pt;
+      font-family: arial;
+    }
+    table, th, td {
+      border: 1px solid black;
+      border-collapse: collapse;
+    }
+    th, td {
+      padding: 5px;
+      text-align: left;    
+    }
+  </style>
+
+<body>
+  <h1>Events Information</h1>
+  <table style="width:100%">
+  <tr>
+    <th>Event ID</th>
+    {% for n in data1 %}
+    <td>{{n}}</td>
+    {% endfor %}
+  </tr>
+  <tr>
+    <th>Cost</th>
+    {% for n in data2 %}
+    <td>{{n}}</td>
+    {% endfor %}
+  </tr>
+  <tr>
+    <th>Date</th>
+    {% for n in data3 %}
+    <td>{{n}}</td>
+    {% endfor %}
+  </tr>
+  <tr>
+    <th>Event Name</th>
+    {% for n in data4 %}
+    <td>{{n}}</td>
+    {% endfor %}
+  </tr>
+  <tr>
+    <th>Smallest Age to Attend</th>
+    {% for n in data5 %}
+    <td>{{n}}</td>
+    {% endfor %}
+  </tr>
+  <tr>
+    <th>Category</th>
+    {% for n in data6 %}
+    <td>{{n}}</td>
+    {% endfor %}
+  </tr>
+  <tr>
+    <th>Participant ID</th>
+    {% for n in data7 %}
+    <td>{{n}}</td>
+    {% endfor %}
+  </tr>
+  <tr>
+    <th>State</th>
+    {% for n in data8 %}
+    <td>{{n}}</td>
+    {% endfor %}
+  </tr>
+  <tr>
+    <th>City</th>
+    {% for n in data9 %}
+    <td>{{n}}</td>
+    {% endfor %}
+  </tr>
+  <tr>
+    <th>Street Name</th>
+    {% for n in data10 %}
+    <td>{{n}}</td>
+    {% endfor %}
+  </tr>
+  <tr>
+    <th>Street Number</th>
+    {% for n in data11 %}
+    <td>{{n}}</td>
+    {% endfor %}
+  </tr>
+</table>
+
+<p><a href="/">Go to homepage</a></p>
+  
+</body>
+
+
+</html>
