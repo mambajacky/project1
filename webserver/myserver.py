@@ -315,7 +315,7 @@ def selectuser():
   elif target == "gender":
     cmd = "SELECT * FROM Users_Live WHERE gender = %s;"
   else:
-    raise ValueError("Wrong Target")
+    raise ValueError("Please use another target attribute.")
   cursor = g.conn.execute(cmd, (value))
   uid = []
   uname = []
@@ -342,7 +342,7 @@ def selectuser():
               data5 = gender, data6 = state, data7 = city, data8 = street_name, data9 = street_number)
 
   return render_template("selectedusers.html", **context)
-  #return redirect('/selectusers')
+
 
 @app.route('/addlocation', methods=['POST'])
 def addlocation():
@@ -377,6 +377,50 @@ def addevent():
     return redirect('/events')
   except:
     return redirect('/events')
+
+@app.route('/selectevent', methods=['POST'])
+def selectevent():
+  target = request.form['target']
+  value = request.form['search']
+  if target == "eid":
+    cmd = "SELECT * FROM Events_TakePlace_Belong_Organize WHERE eid = %s;"
+  elif target == "ename":
+    cmd = "SELECT * FROM Events_TakePlace_Belong_Organize WHERE ename = %s;"
+  elif target == "state":
+    cmd = "SELECT * FROM Events_TakePlace_Belong_Organize WHERE state = %s;"
+  else:
+    raise ValueError("Please use another target attribute.")
+  cursor = g.conn.execute(cmd, (value))
+  eid = []
+  cost = []
+  date = []
+  ename = []
+  smallest_age = []
+  category = []
+  uid = []
+  state = []
+  city = []
+  street_name = []
+  street_number = []
+
+  for result in cursor:
+    eid.append(result['eid'])  # can also be accessed using result[0]
+    cost.append(result['cost'])
+    date.append(result['date'])
+    ename.append(result['ename'])
+    smallest_age.append(result['smallest_age'])
+    category.append(result['category'])
+    uid.append(result['uid'])
+    state.append(result['state'])
+    city.append(result['city'])
+    street_name.append(result['street_name'])
+    street_number.append(result['street_number'])
+  cursor.close()
+
+  context = dict(data1 = eid, data2 = cost, data3 = date, data4 = ename, data5 = smallest_age, data6 = category, 
+                 data7 = uid, data8 = state, data9 = city, data10 = street_name, data11 = street_number) 
+
+  return render_template("selectedevents.html", **context)
 
 @app.route('/participate', methods=['POST'])
 def participate():
