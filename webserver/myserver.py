@@ -166,6 +166,7 @@ def users():
   #
   return render_template("users.html", **context)
 
+
 #
 # This is a different path.  You can see it at
 # 
@@ -315,8 +316,33 @@ def selectuser():
     cmd = "SELECT * FROM Users_Live WHERE gender = %s;"
   else:
     raise ValueError("Wrong Target")
-  g.conn.execute(cmd, (value))
-  return redirect('/users')
+  cursor = g.conn.execute(cmd, (value))
+  uid = []
+  uname = []
+  email_address = []
+  password = []
+  gender = []
+  state = []
+  city = []
+  street_name = []
+  street_number = []
+  for result in cursor:
+    uid.append(result['uid'])  # can also be accessed using result[0]
+    uname.append(result['uname'])
+    email_address.append(result['email_address'])
+    password.append(result['password'])
+    gender.append(result['gender'])
+    state.append(result['state'])
+    city.append(result['city'])
+    street_name.append(result['street_name'])
+    street_number.append(result['street_number'])
+  cursor.close()
+
+  context = dict(data1 = uid, data2 = uname, data3 = email_address, data4 = password, 
+              data5 = gender, data6 = state, data7 = city, data8 = street_name, data9 = street_number)
+
+  return render_template("selectedusers.html", **context)
+  #return redirect('/selectusers')
 
 @app.route('/addlocation', methods=['POST'])
 def addlocation():
