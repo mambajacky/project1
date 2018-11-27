@@ -54,6 +54,18 @@
                    <input type="text" name="birth_date"><input type="text" name="interest"><input type="submit" value="Add">
 </p>
 </form> 
+
+<form method="POST" action="/selectparticipant">
+<p>Search Participants by:
+  <select name="target">
+    <option value="eid">Event ID</option>
+    <option value="interest">Interest</option>
+    <option value="rating">Rating of Event</option>
+  </select>
+  <input type="text" name="search">
+  <input type="submit" value="Search">
+</p>
+</form> 
   
 <p><a href="/">Go to homepage</a></p>
  
