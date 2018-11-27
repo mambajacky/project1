@@ -305,50 +305,62 @@ def adduser():
 
 @app.route('/addlocation', methods=['POST'])
 def addlocation():
-  state = request.form['state']
-  city = request.form['city']
-  street_name = request.form['street_name']
-  street_number = request.form['street_number']
-  cmd = "INSERT INTO Locations(state, city, street_name, street_number) VALUES (%s, %s, %s, %s);"
-  g.conn.execute(cmd, (state, city, street_name, street_number))
-  return redirect('/locations')
+  try:
+    state = request.form['state']
+    city = request.form['city']
+    street_name = request.form['street_name']
+    street_number = request.form['street_number']
+    cmd = "INSERT INTO Locations(state, city, street_name, street_number) VALUES (%s, %s, %s, %s);"
+    g.conn.execute(cmd, (state, city, street_name, street_number))
+    return redirect('/locations')
+  except:
+    return redirect('/locations')
 
 @app.route('/addevent', methods=['POST'])
 def addevent():
-  eid = request.form['eid']
-  cost = request.form['cost']
-  date = request.form['date']
-  ename = request.form['ename']
-  smallest_age = request.form['smallest_age']
-  category = request.form['category']
-  uid = request.form['uid']
-  state = request.form['state']
-  city = request.form['city']
-  street_name = request.form['street_name']
-  street_number = request.form['street_number']
-  cmd = "INSERT INTO Events_TakePlace_Belong_Organize(eid, cost, date, ename, smallest_age, category, uid, state, city, street_name, street_number)  \
+  try:
+    eid = request.form['eid']
+    cost = request.form['cost']
+    date = request.form['date']
+    ename = request.form['ename']
+    smallest_age = request.form['smallest_age']
+    category = request.form['category']
+    uid = request.form['uid']
+    state = request.form['state']
+    city = request.form['city']
+    street_name = request.form['street_name']
+    street_number = request.form['street_number']
+    cmd = "INSERT INTO Events_TakePlace_Belong_Organize(eid, cost, date, ename, smallest_age, category, uid, state, city, street_name, street_number)  \
                      VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);"
-  g.conn.execute(cmd, (eid, cost, date, ename, smallest_age, category, uid, state, city, street_name, street_number))
-  return redirect('/events')
+    g.conn.execute(cmd, (eid, cost, date, ename, smallest_age, category, uid, state, city, street_name, street_number))
+    return redirect('/events')
+  except:
+    return redirect('/events')
 
 @app.route('/participate', methods=['POST'])
 def participate():
-  uid = request.form['uid']
-  eid = request.form['eid']
-  rating = request.form['rating']
-  birth_date = request.form['birth_date']
-  interest = request.form['interest']
-  cmd = "INSERT INTO Participate_Vote_Events(uid, eid, rating, birth_date, interest) VALUES (%s, %s, %s, %s, %s);"
-  g.conn.execute(cmd, (uid, eid, rating, birth_date, interest))
-  return redirect('/participants')
+  try:
+    uid = request.form['uid']
+    eid = request.form['eid']
+    rating = request.form['rating']
+    birth_date = request.form['birth_date']
+    interest = request.form['interest']
+    cmd = "INSERT INTO Participate_Vote_Events(uid, eid, rating, birth_date, interest) VALUES (%s, %s, %s, %s, %s);"
+    g.conn.execute(cmd, (uid, eid, rating, birth_date, interest))
+    return redirect('/participants')
+  except:
+    return redirect('/participants')
 
 @app.route('/organize', methods=['POST'])
 def organize():
-  uid = request.form['uid']
-  eid = request.form['eid']
-  cmd = "INSERT INTO Organize_Events(uid, eid) VALUES (%s, %s);"
-  g.conn.execute(cmd, (uid, eid))
-  return redirect('/organizers')
+  try:
+    uid = request.form['uid']
+    eid = request.form['eid']
+    cmd = "INSERT INTO Organize_Events(uid, eid) VALUES (%s, %s);"
+    g.conn.execute(cmd, (uid, eid))
+    return redirect('/organizers')
+  except:
+    return redirect('/organizers')
 
 @app.route('/login')
 def login():
