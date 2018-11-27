@@ -85,12 +85,20 @@
   </tr>
 </table>
 
+<p>Add New Event</p>
 <form method="POST" action="/addevent">
-<p>Add New Event: <input type="text" name="eid"> <input type="text" name="cost"><input type="text" name="date">
-              <input type="text" name="ename"><input type="text" name="smallest_age"><input type="text" name="category">
-              <input type="text" name="uid"><input type="text" name="state"><input type="text" name="city">
-              <input type="text" name="street_name"><input type="text" name="street_number"><input type="submit" value="Add">
-</p>
+  <p>Event ID: <input type="text" name="eid"></p> 
+  <p>Cost: <input type="text" name="cost"></p>
+  <p>Date: <input type="text" name="date"></p>
+  <p>Event Name: <input type="text" name="ename"></p>
+  <p>Smallest Age to Attend: <input type="text" name="smallest_age"></p>
+  <p>Category: <input type="text" name="category"></p>
+  <p>Participant ID: <input type="text" name="uid"></p>
+  <p>State: <input type="text" name="state"></p>
+  <p>City: <input type="text" name="city"></p>
+  <p>Street Name: <input type="text" name="street_name"></p>
+  <p>Street Number: <input type="text" name="street_number"></p>
+  <p><input type="submit" value="Add"></p>
 </form>  
   
 <form method="POST" action="/selectevent">
