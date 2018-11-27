@@ -285,19 +285,22 @@ def events():
 # 
 @app.route('/adduser', methods=['POST'])
 def adduser():
-  uid = request.form['uid']
-  uname = request.form['uname']
-  email_address = request.form['email_address']
-  password = request.form['password']
-  gender = request.form['gender']
-  state = request.form['state']
-  city = request.form['city']
-  street_name = request.form['street_name']
-  street_number = request.form['street_number']
-  cmd = "INSERT INTO Users_Live(uid, uname, email_address, password, gender, state, city, street_name, street_number)  \
-                     VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s);"
-  g.conn.execute(cmd, (uid, uname, email_address, password, gender, state, city, street_name, street_number))
-  return redirect('/users')
+  try:
+    uid = request.form['uid']
+    uname = request.form['uname']
+    email_address = request.form['email_address']
+    password = request.form['password']
+    gender = request.form['gender']
+    state = request.form['state']
+    city = request.form['city']
+    street_name = request.form['street_name']
+    street_number = request.form['street_number']
+    cmd = "INSERT INTO Users_Live(uid, uname, email_address, password, gender, state, city, street_name, street_number)  \
+                         VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s);"
+    g.conn.execute(cmd, (uid, uname, email_address, password, gender, state, city, street_name, street_number))
+    return redirect('/users')
+  except:
+    raise ValueError("bad input, please try again.")
 
 @app.route('/addlocation', methods=['POST'])
 def addlocation():
